@@ -1,73 +1,188 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>STALKER RP</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Загрузка сервера — Зона</title>
+  <style>
+    :root {
+      --stalker-green: #3b6e3b;
+      --stalker-orange: #ff8c00;
+      --stalker-dark: #1a1a1d;
+      --stalker-gray: #2b2b2e;
+      --text-main: #e0e0b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--stalker-dark);
+      color: var(--text-main);
+      font-family: "Courier New", Courier, monospace; /* техно-стиль */
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .zone-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at center, rgba(255,140,0,0.12) 0%, rgba(0,0,0,0.85) 70%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .logo-zone {
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      border: 2px solid var(--stalker-green);
+      padding: 12px 24px;
+      color: var(--text-main);
+      text-align: center;
+      box-shadow: 0 0 16px rgba(60, 110, 60, 0.4);
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .logo-zone::after {
+      content: "Зона отчуждения";
+      display: block;
+      font-size: 0.9rem;
+      color: var(--stalker-orange);
+      margin-top: 6px;
+      letter-spacing: 2px;
+    }
+
+    .status-panel {
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+      background: rgba(43, 43, 46, 0.75);
+      border-left: 6px solid var(--stalker-green);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+      border-bottom: 1px solid var(--stalker-gray);
+      padding-bottom: 6px;
+    }
+    .info-row:last-child { border-bottom: none; }
+
+    .label { color: var(--stalker-orange); }
+    .value { color: var(--text-main); }
+
+    .progress-container {
+      margin-top: 20px;
+      width: 100%;
+      height: 8px;
+      background: var(--stalker-gray);
+      border: 1px solid #333;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--stalker-green), #6c9e6c);
+      transition: width 0.2s ease-out;
+    }
+
+    .hint {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: #aaa;
+      text-align: center;
+    }
+
+    /* Эффект «помех» (scanlines) */
+    .scanlines {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0) 1px,
+        rgba(0,0,0,0.08) 2px
+      );
+      pointer-events: none;
+      z-index: 3;
+    }
+  </style>
 </head>
 <body>
-<div class="noise"></div>
-<div class="scanlines"></div>
+  <div class="zone-overlay"></div>
+  <div class="scanlines"></div>
 
-<main class="screen">
-  <header class="top">
-    <div class="brand">
-      <div class="brand-mark">☢</div>
-      <div>
-        <div class="brand-title">BLACK SQUAD RP</div>
-        <div class="brand-sub">ZONE // SURVIVAL ROLEPLAY</div>
-      </div>
+  <div class="logo-zone">Black Squad</div>
+
+  <div class="status-panel">
+    <div class="info-row">
+      <span class="label">Сервер:</span>
+      <span class="value" id="server-name">Black Squad RP</span>
     </div>
-    <div class="server-state"><span class="dot"></span><span id="state">ПОДКЛЮЧЕНИЕ</span></div>
-  </header>
-
-  <section class="hero">
-    <div class="hero-copy">
-      <div class="eyebrow">ПРОТОКОЛ ПОДКЛЮЧЕНИЯ</div>
-      <h1>ДОБРО ПОЖАЛОВАТЬ<br><span>В ЗОНУ</span></h1>
-      <p class="intro">Проверка снаряжения завершена. Устанавливается соединение с сервером. Не покидайте периметр.</p>
-
-      <div class="meta">
-        <div><span>ИГРОК</span><strong id="player">—</strong></div>
-        <div><span>КАРТА</span><strong id="map">—</strong></div>
-        <div><span>РЕЖИМ</span><strong id="gamemode">HBASE</strong></div>
-      </div>
+    <div class="info-row">
+      <span class="label">Карта:</span>
+      <span class="value" id="map-name">Классная</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Статус:</span>
+      <span class="value" id="status-text">Подключение к серверу</span>
     </div>
 
-    <div class="zone-card">
-      <div class="radar">
-        <div class="radar-ring r1"></div>
-        <div class="radar-ring r2"></div>
-        <div class="radar-line"></div>
-        <div class="radar-point p1"></div>
-        <div class="radar-point p2"></div>
-        <div class="radar-point p3"></div>
-        <div class="radar-center">☢</div>
-      </div>
-      <div class="card-title">ЗОНА</div>
-      <div class="card-text">Аномальная активность: <b>НЕСТАБИЛЬНА</b></div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-fill"></div>
     </div>
-  </section>
 
-  <section class="loading">
-    <div class="loading-head">
-      <span id="status">Ожидание данных сервера...</span>
-      <b id="percent">0%</b>
-    </div>
-    <div class="bar"><div id="bar"></div></div>
-    <div class="file" id="file">Инициализация...</div>
-  </section>
+    <p class="hint">Не закрывайте окно — загрузка обязательна для корректного подключения</p>
+  </div>
 
-  <footer>
-    <span>Black Squad RP</span>
-    <span>НЕ ДОВЕРЯЙ НИКОМУ</span>
-    <span>© 2026</span>
-  </footer>
-</main>
- <audio id="bg-music" autoplay loop preload="auto">
-    <source src="https://ru.hitmoz.org/get/music/20250901/Chris_F_-_28_Days_Later_Theme_79629446.mp3" type="audio/mpeg">
+  <script>
+    // Прогресс-бар (можно связать с реальными данными, если сервер отдаёт их)
+    const bar = document.getElementById('progress-fill');
+    const statusText = document.getElementById('status-text');
+
+    let progress = 0;
+    const interval = setInterval(() => {
+      if (progress < 100) {
+        progress += Math.random() * 3 + 1;
+        if (progress > 100) progress = 100;
+        bar.style.width = progress + '%';
+
+        // Меняем статусы
+        const texts = [
+          "Подключение к серверу",
+          "Загрузка ресурсов",
+          "Синхронизация данных",
+          "Проверка целостности файлов",
+          "Инициализация игровых объектов",
+          "Вход в Зону..."
+        ];
+        statusText.innerText = texts[Math.floor(progress / 17)];
+      } else {
+        clearInterval(interval);
+        statusText.innerText = "Загрузка завершена";
+      }
+    }, 200);
+
+    // Если сервер передаёт данные через GameDetails (Garry's Mod API)
+    if (typeof GameDetails !== 'undefined') {
+      document.getElementById('server-name').innerText = GameDetails.servername || 'Stalker Zone RP';
+      document.getElementById('map-name').innerText = GameDetails.map || 'Loading...';
+    }
+  </script>
+  
+  <audio id="bg-music" autoplay loop preload="auto">
+    <source src="https://ru.hitmoz.org/get/music/20201212/Velosiped_do_Tokio_-_Pomnish_obyatiya_na_kukhne_71938249.mp3" type="audio/mpeg">
 </audio>
 
 <!-- Кнопка отключения звука -->
@@ -93,6 +208,5 @@
             muted ? 'Включить музыку' : 'Выключить музыку';
     }
 </script>
-<script src="script.js"></script>
 </body>
 </html>
