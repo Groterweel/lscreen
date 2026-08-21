@@ -1,0 +1,44 @@
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#0b0d0c;color:#d7ddd5;font-family:Arial,Helvetica,sans-serif}
+body{background:
+radial-gradient(circle at 72% 35%,rgba(126,145,98,.16),transparent 25%),
+radial-gradient(circle at 18% 80%,rgba(79,91,64,.12),transparent 30%),
+linear-gradient(135deg,#0b0d0c 0%,#121612 50%,#080a09 100%)}
+.noise{position:fixed;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E")}
+.scanlines{position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(255,255,255,.018) 4px)}
+.screen{position:relative;width:100%;height:100%;padding:42px 58px 28px;display:flex;flex-direction:column;justify-content:space-between}
+.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(180,195,160,.18);padding-bottom:18px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-mark{font-size:32px;color:#b5c66c;text-shadow:0 0 18px rgba(181,198,108,.35)}
+.brand-title{font-size:22px;letter-spacing:4px;font-weight:800}
+.brand-sub,.eyebrow{font-size:10px;letter-spacing:3px;color:#7e8a79}
+.server-state{font-size:10px;letter-spacing:2px;color:#aab3a6;display:flex;gap:8px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:#b5c66c;box-shadow:0 0 10px #b5c66c}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:40px;max-width:1250px;width:100%;margin:auto}
+.eyebrow{margin-bottom:16px}
+h1{margin:0;font-size:clamp(42px,6vw,86px);line-height:.9;letter-spacing:-3px;font-weight:900}
+h1 span{color:#b5c66c}
+.intro{max-width:650px;color:#929b91;line-height:1.7;font-size:14px;margin:24px 0}
+.meta{display:flex;gap:34px}
+.meta div{display:flex;flex-direction:column;gap:6px}
+.meta span{font-size:9px;letter-spacing:2px;color:#687166}
+.meta strong{font-size:12px;letter-spacing:1px;color:#c9d0c6;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.zone-card{width:260px;min-width:260px;border:1px solid rgba(181,198,108,.25);background:rgba(8,10,9,.48);padding:22px;text-align:center}
+.radar{position:relative;width:150px;height:150px;margin:0 auto 18px;border:1px solid rgba(181,198,108,.32);border-radius:50%;overflow:hidden;background:radial-gradient(circle,rgba(181,198,108,.12),transparent 65%)}
+.radar-ring{position:absolute;border:1px solid rgba(181,198,108,.2);border-radius:50%;inset:20px}
+.radar-ring.r2{inset:48px}
+.radar-line{position:absolute;width:50%;height:1px;top:50%;left:50%;transform-origin:left center;background:#b5c66c;box-shadow:0 0 8px #b5c66c;animation:sweep 2.8s linear infinite}
+.radar-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:20px;color:#b5c66c}
+.radar-point{position:absolute;width:4px;height:4px;border-radius:50%;background:#d8e99a;box-shadow:0 0 8px #b5c66c}
+.p1{left:36%;top:30%}.p2{left:68%;top:61%}.p3{left:25%;top:70%}
+.card-title{letter-spacing:5px;font-size:13px;color:#b5c66c}
+.card-text{font-size:10px;color:#697269;margin-top:9px}.card-text b{color:#9da98b}
+.loading{width:100%;max-width:1250px;margin:0 auto 20px}
+.loading-head{display:flex;justify-content:space-between;gap:20px;font-size:11px;color:#899287;margin-bottom:9px}
+.loading-head b{color:#b5c66c}
+.bar{height:4px;background:rgba(255,255,255,.08);overflow:hidden}
+#bar{height:100%;width:0%;background:#b5c66c;box-shadow:0 0 12px rgba(181,198,108,.45);transition:width .25s ease}
+.file{font-size:9px;color:#596259;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+footer{display:flex;justify-content:space-between;border-top:1px solid rgba(180,195,160,.14);padding-top:14px;color:#4f594f;font-size:8px;letter-spacing:2px}
+@keyframes sweep{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media(max-width:800px){.screen{padding:25px}.zone-card{display:none}.hero{display:block}.meta{gap:18px}.intro{font-size:12px}h1{font-size:48px}}
