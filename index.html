@@ -66,7 +66,33 @@
     <span>© 2026</span>
   </footer>
 </main>
+ <audio id="bg-music" autoplay loop preload="auto">
+    <source src="https://ru.hitmoz.org/get/music/20250901/Chris_F_-_28_Days_Later_Theme_79629446.mp3" type="audio/mpeg">
+</audio>
 
+<!-- Кнопка отключения звука -->
+<button id="mute-btn" onclick="toggleMute()">Выключить музыку</button>
+
+<script>
+    var audio = document.getElementById('bg-music');
+    var muted = false;
+
+    // Автовоспроизведение может быть заблокировано - запускаем по взаимодействию
+    document.addEventListener('click', function() {
+        if (audio.paused) {
+            audio.play().catch(function(e) {
+                console.log('Autoplay blocked: ' + e);
+            });
+        }
+    }, { once: true });
+
+    function toggleMute() {
+        muted = !muted;
+        audio.muted = muted;
+        document.getElementById('mute-btn').textContent =
+            muted ? 'Включить музыку' : 'Выключить музыку';
+    }
+</script>
 <script src="script.js"></script>
 </body>
 </html>
